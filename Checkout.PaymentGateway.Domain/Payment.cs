@@ -15,24 +15,24 @@ namespace Checkout.PaymentGateway.Domain
                        CardNumber cardNumber,
                        int expityMonth,
                        int expiryYear,
-                       CVV cVV,
+                       CVV cvv,
                        decimal amount,
-                       string currency)
+                       Currency currency)
             : this(id)
         {
             CardNumber = cardNumber ?? throw new ArgumentNullException(nameof(cardNumber));
-            ExpityMonth = expityMonth;
+            ExpiryMonth = expityMonth;
             ExpiryYear = expiryYear;
-            CVV = cVV ?? throw new ArgumentNullException(nameof(cVV));
+            CVV = cvv ?? throw new ArgumentNullException(nameof(cvv));
             Amount = amount;
             Currency = currency ?? throw new ArgumentNullException(nameof(currency));
         }
 
         public CardNumber CardNumber { get; private set; }
-        public int ExpityMonth { get; private set; }
+        public int ExpiryMonth { get; private set; }
         public int ExpiryYear { get; private set; }
         public CVV CVV { get; private set; }
         public decimal Amount { get; private set; }
-        public string Currency { get; private set; }
+        public Currency Currency { get; private set; }
     }
 }

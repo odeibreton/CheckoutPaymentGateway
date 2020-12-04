@@ -7,10 +7,8 @@ namespace Checkout.PaymentGateway.Domain
 {
     public sealed class PaymentId : IntId
     {
-        private PaymentId(int id) : base(id)
+        public PaymentId(int id) : base(id)
         {
         }
-
-        
     }
 }
