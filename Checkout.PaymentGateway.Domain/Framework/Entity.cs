@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Checkout.PaymentGateway.Domain.Framework
 {
-    public abstract class Entity<T>
+    public abstract class Entity<T> : Equatable<Entity<T>>
         where T : ValueObject
     {
         protected Entity(T id)
@@ -16,14 +16,10 @@ namespace Checkout.PaymentGateway.Domain.Framework
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Entity<T> entity))
+            if (!base.Equals(obj))
                 return false;
 
-            if (ReferenceEquals(this, entity))
-                return true;
-
-            if (GetType() != entity.GetType())
-                return false;
+            var entity = obj as Entity<T>;
 
             if (Id is null || entity.Id is null)
                 return false;

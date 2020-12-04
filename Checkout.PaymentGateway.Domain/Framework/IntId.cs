@@ -15,14 +15,10 @@ namespace Checkout.PaymentGateway.Domain.Framework
 
         public override bool Equals(object obj)
         {
-            if (!(obj is IntId value))
+            if (!base.Equals(obj))
                 return false;
 
-            if (ReferenceEquals(this, value))
-                return true;
-
-            if (GetType() != value.GetType())
-                return false;
+            var value = obj as IntId;
 
             if (Id == 0 || value.Id == 0)
                 return false;

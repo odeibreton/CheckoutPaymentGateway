@@ -4,9 +4,13 @@ using System.Text;
 
 namespace Checkout.PaymentGateway.Domain.Framework
 {
-    public abstract class ValueObject
+    public abstract class ValueObject : Equatable<ValueObject>
     {
-        public abstract override bool Equals(object obj);
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
         public abstract override int GetHashCode();
 
         public static bool operator ==(ValueObject left, ValueObject right)
