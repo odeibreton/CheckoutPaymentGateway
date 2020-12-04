@@ -15,6 +15,9 @@ namespace Checkout.PaymentGateway.Infrastructure.DbContext
             builder.Property(p => p.Id)
                 .HasConversion(id => id.Id, id => new PaymentId(id));
 
+            builder.Property(p => p.BankingPaymentId)
+                .IsRequired();
+
             builder.OwnsOne(p => p.CardNumber)
                 .Property(c => c.Value)
                 .HasColumnName("CardNumber")
