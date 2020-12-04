@@ -12,6 +12,7 @@ namespace Checkout.PaymentGateway.Domain
         }
 
         public Payment(PaymentId id,
+                       string bankingPaymentId,
                        CardNumber cardNumber,
                        int expityMonth,
                        int expiryYear,
@@ -20,6 +21,7 @@ namespace Checkout.PaymentGateway.Domain
                        Currency currency)
             : this(id)
         {
+            BankingPaymentId = bankingPaymentId ?? throw new ArgumentNullException(nameof(bankingPaymentId));
             CardNumber = cardNumber ?? throw new ArgumentNullException(nameof(cardNumber));
             ExpiryMonth = expityMonth;
             ExpiryYear = expiryYear;
@@ -28,6 +30,7 @@ namespace Checkout.PaymentGateway.Domain
             Currency = currency ?? throw new ArgumentNullException(nameof(currency));
         }
 
+        public string BankingPaymentId { get; private set; }
         public CardNumber CardNumber { get; private set; }
         public int ExpiryMonth { get; private set; }
         public int ExpiryYear { get; private set; }
