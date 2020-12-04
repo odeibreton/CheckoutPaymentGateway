@@ -30,19 +30,6 @@ namespace Checkout.PaymentGateway.Domain.Framework
             return Id == value.Id;
         }
 
-        public static bool operator ==(IntId left, IntId right)
-        {
-            if (left is null || right is null)
-                return false;
-
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(IntId left, IntId right)
-        {
-            return !(left == right);
-        }
-
         public override int GetHashCode()
         {
             return (GetType().ToString() + Id.ToString()).GetHashCode();
