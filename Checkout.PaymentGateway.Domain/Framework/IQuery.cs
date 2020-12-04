@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Checkout.PaymentGateway.Domain.Framework
 {
-    public interface IQuery
+    public interface IQuery<TResult>
+        where TResult : class
     {
     }
 }

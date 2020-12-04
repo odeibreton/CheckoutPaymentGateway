@@ -8,6 +8,8 @@ namespace Checkout.PaymentGateway.Domain.Framework
     public interface IMessageDispatcher
     {
         Task DispatchAsync<T>(T command) where T : ICommand;
-        Task<TResult> DispatchAsync<TResult, TQuery>(TQuery query) where TQuery : IQuery;
+        Task<TResult> DispatchAsync<TResult, TQuery>(TQuery query)
+            where TQuery : IQuery<TResult>
+            where TResult : class;
     }
 }

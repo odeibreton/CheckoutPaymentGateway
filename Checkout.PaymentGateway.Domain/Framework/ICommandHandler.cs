@@ -10,4 +10,11 @@ namespace Checkout.PaymentGateway.Domain.Framework
     {
         Task HandleAsync(T command);
     }
+
+    public interface ICommandHandler<TCommand, TResult>
+        where TCommand : ICommand<TResult>
+        where TResult : class
+    {
+        Task<TResult> HandleAsync(TCommand command);
+    }
 }
