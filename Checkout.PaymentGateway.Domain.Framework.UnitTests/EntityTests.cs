@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Checkout.PaymentGateway.Domain.Framework;
 using Moq;
 using Xunit;
 
-namespace Checkout.PaymentGateway.Domain.UnitTests
+namespace Checkout.PaymentGateway.Domain.Framework.UnitTests
 {
     public class EntityTests
     {

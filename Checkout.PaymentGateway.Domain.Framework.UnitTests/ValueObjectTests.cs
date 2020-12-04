@@ -1,9 +1,8 @@
 using System;
-using Checkout.PaymentGateway.Domain.Framework;
 using Moq;
 using Xunit;
 
-namespace Checkout.PaymentGateway.Domain.UnitTests
+namespace Checkout.PaymentGateway.Domain.Framework.UnitTests
 {
     public class ValueObjectTests
     {
