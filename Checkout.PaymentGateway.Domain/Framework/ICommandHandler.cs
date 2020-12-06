@@ -5,16 +5,9 @@ using System.Threading.Tasks;
 
 namespace Checkout.PaymentGateway.Domain.Framework
 {
-    public interface ICommandHandler<T>
+    public interface ICommandHandler<in T>
         where T : ICommand
     {
         Task HandleAsync(T command);
-    }
-
-    public interface ICommandHandler<TCommand, TResult>
-        where TCommand : ICommand<TResult>
-        where TResult : class
-    {
-        Task<TResult> HandleAsync(TCommand command);
     }
 }

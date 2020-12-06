@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Checkout.PaymentGateway.Domain.Framework;
 
-namespace Checkout.PaymentGateway.Domain.Commands
+namespace Checkout.PaymentGateway.Application.DTO
 {
-    public class CreatePayment : ICommand
+    public sealed class PaymentInformation
     {
         public string CardNumber { get; set; }
         public int ExpityMonth { get; set; }

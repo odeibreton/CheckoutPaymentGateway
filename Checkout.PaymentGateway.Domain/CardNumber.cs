@@ -9,16 +9,16 @@ namespace Checkout.PaymentGateway.Domain
     {
         public string Value { get; }
 
-        public CardNumber(string value)
+        public CardNumber(string cardNumber)
         {
-            _ = value ?? throw new ArgumentNullException(nameof(value));
+            _ = cardNumber ?? throw new ArgumentNullException(nameof(cardNumber));
 
-            if (!LuhnCheck.IsValid(value))
+            if (!LuhnCheck.IsValid(cardNumber))
             {
                 throw new InvalidCardNumberException();
             }
 
-            Value = value;
+            Value = cardNumber;
         }
 
         public override bool Equals(object obj)

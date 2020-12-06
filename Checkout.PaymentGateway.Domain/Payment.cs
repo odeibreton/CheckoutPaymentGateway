@@ -7,7 +7,7 @@ namespace Checkout.PaymentGateway.Domain
 {
     public sealed class Payment : AggregateRoot<PaymentId>
     {
-        public Payment(PaymentId id) : base(id)
+        private Payment(PaymentId id) : base(id)
         {
         }
 
