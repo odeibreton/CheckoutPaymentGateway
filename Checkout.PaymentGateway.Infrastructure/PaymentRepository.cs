@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Checkout.PaymentGateway.Domain;
 using Checkout.PaymentGateway.Domain.Repositories;
 using Checkout.PaymentGateway.Infrastructure.DbContext;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
@@ -21,6 +23,11 @@ namespace Checkout.PaymentGateway.Infrastructure
         public Task<Payment> GetByIdAsync(PaymentId id)
         {
             return DbContext.Payments.FindAsync(id).AsTask();
+        }
+
+        public Task<Payment> GetByBankingPaymentIdAsync(string bankingPaymentId)
+        {
+            return DbContext.Payments.SingleAsync(p => p.BankingPaymentId == bankingPaymentId);
         }
 
         public async Task CreateAsync(Payment payment)
