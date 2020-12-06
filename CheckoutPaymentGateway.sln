@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Checkout.PaymentGateway.Dom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Checkout.PaymentGateway.Infrastructure", "Checkout.PaymentGateway.Infrastructure\Checkout.PaymentGateway.Infrastructure.csproj", "{B68F9EE2-E2EC-4342-8C4C-8D3D17D94060}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.PaymentGateway.Application", "Checkout.PaymentGateway.Application\Checkout.PaymentGateway.Application.csproj", "{2CEC85BA-4131-499E-AE15-038212EA7ED5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Checkout.PaymentGateway.Application", "Checkout.PaymentGateway.Application\Checkout.PaymentGateway.Application.csproj", "{2CEC85BA-4131-499E-AE15-038212EA7ED5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.PaymentGateway.Application.UnitTests", "Checkout.PaymentGateway.Application.UnitTests\Checkout.PaymentGateway.Application.UnitTests.csproj", "{39CE59E5-230E-47FD-BE09-7F7167648A70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{2CEC85BA-4131-499E-AE15-038212EA7ED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CEC85BA-4131-499E-AE15-038212EA7ED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CEC85BA-4131-499E-AE15-038212EA7ED5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39CE59E5-230E-47FD-BE09-7F7167648A70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39CE59E5-230E-47FD-BE09-7F7167648A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39CE59E5-230E-47FD-BE09-7F7167648A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39CE59E5-230E-47FD-BE09-7F7167648A70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{139D7CD2-16D6-41F7-A9CF-371FAC074861} = {13316E60-30F3-4F02-BB12-9DA49CC7163B}
 		{8BF1F851-030A-415C-B8AC-ABC843927192} = {13316E60-30F3-4F02-BB12-9DA49CC7163B}
+		{39CE59E5-230E-47FD-BE09-7F7167648A70} = {13316E60-30F3-4F02-BB12-9DA49CC7163B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53814561-47BC-4B69-9BA8-864934EEF6CD}
