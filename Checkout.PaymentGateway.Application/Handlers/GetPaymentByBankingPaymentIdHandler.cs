@@ -30,7 +30,7 @@ namespace Checkout.PaymentGateway.Application.Handlers
                 CardNumber = MaskCardNumber(aggregate.CardNumber.Value),
                 Amount = aggregate.Amount,
                 Currency = aggregate.Currency.Value,
-                SuccessfulPayment = true
+                SuccessfulPayment = aggregate.SuccessfulPayment
             };
         }
 

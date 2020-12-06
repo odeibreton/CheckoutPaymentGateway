@@ -9,6 +9,6 @@ namespace Checkout.PaymentGateway.Application.Services
 {
     public interface IBankingService
     {
-        Task<string> MakePayment(PaymentInformation paymentInformation);
+        Task<MakeBankingPaymentResult> MakePayment(PaymentInformation paymentInformation);
     }
 }

@@ -115,11 +115,15 @@ namespace Checkout.PaymentGateway.Application.UnitTests
         [Fact]
         public async Task RepositoryCreatePaymentActionShoulBeCalledAfterSuccessfulPayment()
         {
-            const string bankingPaymentId = "PAYMENT ID";
+            var paymentResult = new MakeBankingPaymentResult()
+            {
+                Id = "PAYMENT ID",
+                Successful = true
+            };
 
             var (repository, service) = GetMocks();
             service.Setup(s => s.MakePayment(It.IsAny<PaymentInformation>()))
-                .ReturnsAsync(bankingPaymentId);
+                .ReturnsAsync(paymentResult);
 
             repository.Setup(r => r.CreateAsync(It.IsAny<Payment>()))
                 .Returns(Task.CompletedTask)
@@ -135,12 +139,16 @@ namespace Checkout.PaymentGateway.Application.UnitTests
         [Fact]
         public async Task PaymentShouldBeCreatedWithBankingPaymentId()
         {
-            const string expectedBankingPaymentId = "PAYMENT ID";
+            var paymentResult = new MakeBankingPaymentResult()
+            {
+                Id = "PAYMENT ID",
+                Successful = true
+            };
             string actualBankingPaymentId = null;
 
             var (repository, service) = GetMocks();
             service.Setup(s => s.MakePayment(It.IsAny<PaymentInformation>()))
-                .ReturnsAsync(expectedBankingPaymentId);
+                .ReturnsAsync(paymentResult);
 
             repository.Setup(r => r.CreateAsync(It.IsAny<Payment>()))
                 .Callback<Payment>(p => actualBankingPaymentId = p.BankingPaymentId)
@@ -150,17 +158,21 @@ namespace Checkout.PaymentGateway.Application.UnitTests
 
             await sut.HandleAsync(GetCreatePaymentCommand());
 
-            Assert.Equal(expectedBankingPaymentId, actualBankingPaymentId);
+            Assert.Equal(paymentResult.Id, paymentResult.Id);
         }
 
         [Fact]
         public async Task ShouldThrowExceptionIfRepositoryThrowsException()
         {
-            const string expectedBankingPaymentId = "PAYMENT ID";
+            var paymentResult = new MakeBankingPaymentResult()
+            {
+                Id = "PAYMENT ID",
+                Successful = true
+            };
 
             var (repository, service) = GetMocks();
             service.Setup(s => s.MakePayment(It.IsAny<PaymentInformation>()))
-                .ReturnsAsync(expectedBankingPaymentId);
+                .ReturnsAsync(paymentResult);
 
             repository.Setup(r => r.CreateAsync(It.IsAny<Payment>()))
                 .Throws(new InvalidOperationException());
@@ -168,6 +180,29 @@ namespace Checkout.PaymentGateway.Application.UnitTests
             var sut = GetHandler(repository.Object, service.Object);
 
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await sut.HandleAsync(GetCreatePaymentCommand()));
+        }
+
+        [Fact]
+        public async Task ShouldThrowExceptionIfPaymentIsNotSuccessful()
+        {
+            var paymentResult = new MakeBankingPaymentResult()
+            {
+                Id = "PAYMENT ID",
+                Successful = false,
+                Error = "Error 1234: Payment gone wrong."
+            };
+
+            var (repository, service) = GetMocks();
+            service.Setup(s => s.MakePayment(It.IsAny<PaymentInformation>()))
+                .ReturnsAsync(paymentResult);
+
+            repository.Setup(r => r.CreateAsync(It.IsAny<Payment>()))
+                .Returns(() => Task.CompletedTask);
+
+            var sut = GetHandler(repository.Object, service.Object);
+
+            var exception = await Assert.ThrowsAsync<BankingException>(async () => await sut.HandleAsync(GetCreatePaymentCommand()));
+            Assert.Contains(paymentResult.Error, exception.Message);
         }
     }
 }
