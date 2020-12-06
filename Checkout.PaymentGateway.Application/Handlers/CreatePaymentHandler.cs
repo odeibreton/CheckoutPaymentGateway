@@ -39,11 +39,16 @@ namespace Checkout.PaymentGateway.Application.Handlers
                 Currency = command.Currency
             };
 
-            var bankingPaymentId = await SubmitPaymentAsync(paymentInformation);
-            await ProcessPaymentAsync(command, bankingPaymentId);
+            var paymentResult = await SubmitPaymentAsync(paymentInformation);
+            await ProcessPaymentAsync(command, paymentResult);
+
+            if (!paymentResult.Successful)
+            {
+                throw new BankingException(paymentResult.Error);
+            }
         }
 
-        private async Task<string> SubmitPaymentAsync(PaymentInformation paymentInformation)
+        private async Task<MakeBankingPaymentResult> SubmitPaymentAsync(PaymentInformation paymentInformation)
         {
             try
             {
@@ -57,12 +62,13 @@ namespace Checkout.PaymentGateway.Application.Handlers
             }
         }
 
-        private async Task ProcessPaymentAsync(CreatePayment command, string bankingPaymentId)
+        private async Task ProcessPaymentAsync(CreatePayment command, MakeBankingPaymentResult paymentResult)
         {
             try
             {
                 var payment = new Payment(null,
-                                          bankingPaymentId,
+                                          paymentResult.Id,
+                                          paymentResult.Successful,
                                           new CardNumber(command.CardNumber),
                                           command.ExpityMonth,
                                           command.ExpiryYear,
@@ -76,7 +82,7 @@ namespace Checkout.PaymentGateway.Application.Handlers
             }
             catch (Exception e)
             {
-                _logger.LogCritical(e, "Payment could not be saved after successful payment.", bankingPaymentId);
+                _logger.LogCritical(e, "Payment could not be saved.", paymentResult);
                 throw e;
             }
         }
