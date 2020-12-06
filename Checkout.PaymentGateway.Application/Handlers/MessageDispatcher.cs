@@ -24,7 +24,7 @@ namespace Checkout.PaymentGateway.Application.Handlers
 
         public Task<TResult> DispatchAsync<TQuery, TResult>(TQuery query)
             where TResult : class
-            where TQuery : IQuery<TResult>
+            where TQuery : IQuery
         {
             var handler = _serviceProvider.GetService<IQueryHandler<TQuery, TResult>>();
             return handler.HandleAsync(query);

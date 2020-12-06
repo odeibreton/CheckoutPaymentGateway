@@ -86,7 +86,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
         {
         }
 
-        public class TestQuery : IQuery<object>
+        public class TestQuery : IQuery
         {
         }
         #endregion
