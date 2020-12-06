@@ -9,7 +9,7 @@ namespace Checkout.PaymentGateway.Domain.Framework
     {
         Task DispatchAsync<T>(T command) where T : ICommand;
         Task<TResult> DispatchAsync<TQuery, TResult>(TQuery query)
-            where TQuery : IQuery<TResult>
+            where TQuery : IQuery
             where TResult : class;
     }
 }
