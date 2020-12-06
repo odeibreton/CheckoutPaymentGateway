@@ -7,6 +7,6 @@ namespace Checkout.PaymentGateway.Domain.Queries
 {
     public class GetPaymentById : IQuery
     {
-        public PaymentId Id { get; set; }
+        public string BankingPaymentId { get; set; }
     }
 }
