@@ -5,9 +5,8 @@ using Checkout.PaymentGateway.Domain.Framework;
 
 namespace Checkout.PaymentGateway.Domain.Commands
 {
-    public class CreatePayment : ICommand<PaymentId>
+    public class CreatePayment : ICommand
     {
-        public string BankingPaymentId { get; set; }
         public string CardNumber { get; set; }
         public int ExpityMonth { get; set; }
         public int ExpiryYear { get; set; }
