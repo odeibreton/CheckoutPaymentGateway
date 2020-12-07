@@ -52,7 +52,7 @@ namespace Checkout.PaymentGateway.Application.Handlers
         {
             try
             {
-                var paymentId = await _bankingService.MakePayment(paymentInformation);
+                var paymentId = await _bankingService.MakePaymentAsync(paymentInformation);
                 return paymentId;
             }
             catch (Exception e)
