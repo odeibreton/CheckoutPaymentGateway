@@ -87,7 +87,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
         public async Task BankingErrorShouldThrowBankingException()
         {
             var (repository, service) = GetMocks();
-            service.Setup(s => s.MakePayment(It.IsAny<PaymentInformation>()))
+            service.Setup(s => s.MakePaymentAsync(It.IsAny<PaymentInformation>()))
                 .ThrowsAsync(new BankingException());
 
             var sut = GetHandler(repository.Object, service.Object);
@@ -99,7 +99,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
         public async Task RepositoryShouldNotBeCalledAfterBankingError()
         {
             var (repository, service) = GetMocks();
-            service.Setup(s => s.MakePayment(It.IsAny<PaymentInformation>()))
+            service.Setup(s => s.MakePaymentAsync(It.IsAny<PaymentInformation>()))
                 .ThrowsAsync(new BankingException());
 
             repository.Setup(r => r.CreateAsync(It.IsAny<Payment>()))
@@ -122,7 +122,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
             };
 
             var (repository, service) = GetMocks();
-            service.Setup(s => s.MakePayment(It.IsAny<PaymentInformation>()))
+            service.Setup(s => s.MakePaymentAsync(It.IsAny<PaymentInformation>()))
                 .ReturnsAsync(paymentResult);
 
             repository.Setup(r => r.CreateAsync(It.IsAny<Payment>()))
@@ -147,7 +147,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
             string actualBankingPaymentId = null;
 
             var (repository, service) = GetMocks();
-            service.Setup(s => s.MakePayment(It.IsAny<PaymentInformation>()))
+            service.Setup(s => s.MakePaymentAsync(It.IsAny<PaymentInformation>()))
                 .ReturnsAsync(paymentResult);
 
             repository.Setup(r => r.CreateAsync(It.IsAny<Payment>()))
@@ -171,7 +171,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
             };
 
             var (repository, service) = GetMocks();
-            service.Setup(s => s.MakePayment(It.IsAny<PaymentInformation>()))
+            service.Setup(s => s.MakePaymentAsync(It.IsAny<PaymentInformation>()))
                 .ReturnsAsync(paymentResult);
 
             repository.Setup(r => r.CreateAsync(It.IsAny<Payment>()))
@@ -193,7 +193,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
             };
 
             var (repository, service) = GetMocks();
-            service.Setup(s => s.MakePayment(It.IsAny<PaymentInformation>()))
+            service.Setup(s => s.MakePaymentAsync(It.IsAny<PaymentInformation>()))
                 .ReturnsAsync(paymentResult);
 
             repository.Setup(r => r.CreateAsync(It.IsAny<Payment>()))
