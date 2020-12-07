@@ -78,7 +78,7 @@ namespace Checkout.PaymentGateway.Application.Handlers
                 );
 
                 await _paymentRepository.CreateAsync(payment);
-                await _paymentRepository.SaveAsync();
+                await _paymentRepository.SaveChangesAsync();
             }
             catch (Exception e)
             {

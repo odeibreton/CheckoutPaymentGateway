@@ -10,6 +10,6 @@ namespace Checkout.PaymentGateway.Domain.Repositories
         Task<Payment> GetByIdAsync(PaymentId id);
         Task<Payment> GetByBankingPaymentIdAsync(string bankingPaymentId);
         Task CreateAsync(Payment payment);
-        Task SaveAsync();
+        Task SaveChangesAsync();
     }
 }

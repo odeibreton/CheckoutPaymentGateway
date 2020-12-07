@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Checkout.PaymentGateway.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Checkout.PaymentGateway.Infrastructure.DbContext
 {
@@ -13,18 +15,18 @@ namespace Checkout.PaymentGateway.Infrastructure.DbContext
         {
         }
 
-        public PaymentGatewayDbContext(DbContextOptions options)
+        public PaymentGatewayDbContext(DbContextOptions<PaymentGatewayDbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Payment> Payments { get; }
+        public DbSet<Payment> Payments { get; protected set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(PaymentGatewayDbContext).Assembly);
         }
     }
 }

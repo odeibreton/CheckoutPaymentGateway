@@ -30,10 +30,9 @@ namespace Checkout.PaymentGateway.Infrastructure
             return DbContext.Payments.SingleAsync(p => p.BankingPaymentId == bankingPaymentId);
         }
 
-        public async Task CreateAsync(Payment payment)
+        public Task CreateAsync(Payment payment)
         {
-            await BeginTransactionAsync();
-            await DbContext.Payments.AddAsync(payment);
+            return DbContext.Payments.AddAsync(payment).AsTask();
         }
     }
 }
