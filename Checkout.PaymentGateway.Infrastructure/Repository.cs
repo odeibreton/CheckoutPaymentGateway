@@ -10,23 +10,9 @@ namespace Checkout.PaymentGateway.Infrastructure
 {
     public abstract class Repository
     {
-        private IDbContextTransaction _transaction;
         private readonly ILogger<Repository> _logger;
 
         protected PaymentGatewayDbContext DbContext { get; }
-        private IDbContextTransaction Transaction
-        {
-            get => _transaction;
-            set
-            {
-                if (_transaction != null)
-                {
-                    throw new InvalidOperationException("Cannot create a new transaction while another one is in progress.");
-                }
-
-                _transaction = value;
-            }
-        }
 
         protected Repository(PaymentGatewayDbContext dbContext, ILogger<Repository> logger)
         {
@@ -34,33 +20,17 @@ namespace Checkout.PaymentGateway.Infrastructure
             DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public async Task SaveAsync()
+        public async Task SaveChangesAsync()
         {
-            if (Transaction is null)
-            {
-                return;
-            }
-
             try
             {
-                await Transaction.CommitAsync();
+                await DbContext.SaveChangesAsync();
             }
             catch (Exception e)
             {
-                await Transaction.RollbackAsync();
-                _logger.LogError(e, "Database transaction commit failed.");
+                _logger.LogError(e, "Changes could not be saved in the database.");
                 throw;
             }
-            finally
-            {
-                await Transaction.DisposeAsync();
-                Transaction = null;
-            }
-        }
-
-        protected async Task BeginTransactionAsync()
-        {
-            Transaction = await DbContext.Database.BeginTransactionAsync();
         }
     }
 }
