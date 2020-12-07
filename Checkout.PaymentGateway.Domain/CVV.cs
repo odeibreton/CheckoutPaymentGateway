@@ -9,13 +9,13 @@ namespace Checkout.PaymentGateway.Domain
     {
         public string Value { get; private set; }
 
-        public CVV(string cvv)
+        public CVV(string value)
         {
-            _ = cvv ?? throw new ArgumentNullException(nameof(cvv));
+            _ = value ?? throw new ArgumentNullException("cvv");
 
-            Validate(cvv);
+            Validate(value);
 
-            Value = cvv;
+            Value = value;
         }
 
         private void Validate(string value)
