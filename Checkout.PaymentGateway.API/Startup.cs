@@ -36,7 +36,7 @@ namespace Checkout.PaymentGateway.API
 
             services.AddDbContext<PaymentGatewayDbContext>(options =>
             {
-                options.UseInMemoryDatabase("Payments");
+                options.UseSqlServer(Configuration.GetConnectionString("Payments"));
             });
 
             services.Configure<BankingServiceMockOptions>(Configuration.GetSection("BankingServiceMockOptions"));
