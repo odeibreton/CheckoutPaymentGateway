@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Checkout.PaymentGateway.Application\Checkout.PaymentGateway.Application.csproj" />
+    <ProjectReference Include="..\Checkout.PaymentGateway.Domain\Checkout.PaymentGateway.Domain.csproj" />
+    <ProjectReference Include="..\Checkout.PaymentGateway.Infrastructure\Checkout.PaymentGateway.Infrastructure.csproj" />
   </ItemGroup>
 
 

@@ -61,7 +61,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
                 Currency = "EUR",
                 CVV = "123",
                 ExpiryYear = 2022,
-                ExpityMonth = 12
+                ExpiryMonth = 12
             });
 
             Assert.True(result.Successful);
@@ -88,7 +88,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
                 Currency = "EUR",
                 CVV = "123",
                 ExpiryYear = 2022,
-                ExpityMonth = 12
+                ExpiryMonth = 12
             });
 
             Assert.False(result.Successful);

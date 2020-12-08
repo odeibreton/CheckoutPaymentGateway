@@ -21,8 +21,8 @@ namespace Checkout.PaymentGateway.Application.Handlers
             _ = assembly ?? throw new ArgumentNullException(nameof(assembly));
 
             var handlers = assembly.GetTypes()
-                .Where(type => type.GetInterfaces().All(i => !IsDecoratorInterface(i)))
                 .Where(type => type.GetInterfaces().Any(i => IsHandlerInterface(i)))
+                .Where(type => !IsDecorator(type))
                 .ToList();
 
             handlers.ForEach(h => AddHandler(services, h));
@@ -112,14 +112,14 @@ namespace Checkout.PaymentGateway.Application.Handlers
             return typeDefinition == typeof(ICommandHandler<>) || typeDefinition == typeof(IQueryHandler<,>);
         }
 
-        private static bool IsDecoratorInterface(Type type)
+        private static bool IsDecorator(Type type)
         {
             if (!type.IsGenericType)
                 return false;
 
             var typeDefinition = type.GetGenericTypeDefinition();
 
-            return typeDefinition == typeof(CommandHandlerDecorator<>);
+            return typeDefinition == typeof(CommandHandlerDecorator<>) || typeDefinition.IsSubclassOf(typeof(CommandHandlerDecorator<>));
         }
     }
 }

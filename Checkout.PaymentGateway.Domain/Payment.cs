@@ -15,7 +15,7 @@ namespace Checkout.PaymentGateway.Domain
                        string bankingPaymentId,
                        bool successfulPayment,
                        CardNumber cardNumber,
-                       int expityMonth,
+                       int expiryMonth,
                        int expiryYear,
                        CVV cvv,
                        decimal amount,
@@ -25,7 +25,7 @@ namespace Checkout.PaymentGateway.Domain
             SuccessfulPayment = successfulPayment;
             BankingPaymentId = bankingPaymentId ?? throw new ArgumentNullException(nameof(bankingPaymentId));
             CardNumber = cardNumber ?? throw new ArgumentNullException(nameof(cardNumber));
-            ExpiryMonth = expityMonth;
+            ExpiryMonth = expiryMonth;
             ExpiryYear = expiryYear;
             CVV = cvv ?? throw new ArgumentNullException(nameof(cvv));
             Amount = amount;
