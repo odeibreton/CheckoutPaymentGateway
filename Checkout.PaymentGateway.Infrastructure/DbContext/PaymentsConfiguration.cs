@@ -13,25 +13,32 @@ namespace Checkout.PaymentGateway.Infrastructure.DbContext
         {
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id)
-                .HasConversion(id => id.Id, id => new PaymentId(id));
+                .ValueGeneratedOnAdd();
 
             builder.Property(p => p.BankingPaymentId)
+                .HasMaxLength(128)
                 .IsRequired();
 
-            builder.OwnsOne(p => p.CardNumber)
-                .Property(c => c.Value)
+            builder.Property(p => p.CardNumber)
+                .HasConversion(v => v.Value, v => new CardNumber(v))
                 .HasColumnName("CardNumber")
+                .HasMaxLength(19)
                 .IsRequired();
 
-            builder.OwnsOne(p => p.CVV)
-                .Property(cvv => cvv.Value)
+            builder.Property(p => p.CVV)
+                .HasConversion(v => v.Value, v => new CVV(v))
                 .HasColumnName("CVV")
+                .HasMaxLength(4)
                 .IsRequired();
 
-            builder.OwnsOne(p => p.Currency)
-                .Property(c => c.Value)
+            builder.Property(p => p.Currency)
+                .HasConversion(v => v.Value, v => new Currency(v))
                 .HasColumnName("Currency")
+                .HasMaxLength(3)
                 .IsRequired();
+
+            builder.Property(p => p.Amount)
+                .HasColumnType("DECIMAL(6,3)");
         }
     }
 }
