@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Checkout.PaymentGateway.Application.DTO
 {
-    public class MakeBankingPaymentResult
+    public class BankingPaymentResult
     {
         public string Id { get; set; }
         public bool Successful { get; set; }
