@@ -8,24 +8,9 @@ namespace Checkout.PaymentGateway.Domain.Framework.UnitTests
 {
     public class EntityTests
     {
-        private static Mock<IntId> GetIdMock(int id)
+        private static Mock<Entity<int?>> GetMock(int? id)
         {
-            return new Mock<IntId>(id)
-            {
-                CallBase = true
-            };
-        }
-
-        private static Mock<Entity<IntId>> GetMock(int? id)
-        {
-            IntId intId = null;
-
-            if (id.HasValue)
-            {
-                intId = GetIdMock(id.Value).Object;
-            }
-
-            return new Mock<Entity<IntId>>(intId)
+            return new Mock<Entity<int?>>(id)
             {
                 CallBase = true
             };
@@ -73,22 +58,22 @@ namespace Checkout.PaymentGateway.Domain.Framework.UnitTests
         [Fact]
         public void ShouldNotBeEqualByType()
         {
-            var entity1 = GetIdMock(1);
-            var entity2 = GetIdMock(1);
+            var entity1 = GetMock(1);
+            var entity2 = GetMock(1);
 
             Assert.True(entity1 != entity2);
         }
 
-        internal class Entity1 : Entity<IntId>
+        internal class Entity1 : Entity<int?>
         {
-            public Entity1(IntId id) : base(id)
+            public Entity1(int id) : base(id)
             {
             }
         }
 
-        internal class Entity2 : Entity<IntId>
+        internal class Entity2 : Entity<int?>
         {
-            public Entity2(IntId id) : base(id)
+            public Entity2(int id) : base(id)
             {
             }
         }

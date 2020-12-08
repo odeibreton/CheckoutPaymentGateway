@@ -5,7 +5,6 @@ using System.Text;
 namespace Checkout.PaymentGateway.Domain.Framework
 {
     public abstract class Entity<T> : Equatable<Entity<T>>
-        where T : ValueObject
     {
         protected Entity(T id)
         {
@@ -24,7 +23,7 @@ namespace Checkout.PaymentGateway.Domain.Framework
             if (Id is null || entity.Id is null)
                 return false;
 
-            return Id == entity.Id;
+            return Id.Equals(entity.Id);
         }
 
         public static bool operator ==(Entity<T> left, Entity<T> right)

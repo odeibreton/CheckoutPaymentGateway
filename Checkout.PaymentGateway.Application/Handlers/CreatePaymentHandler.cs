@@ -29,7 +29,7 @@ namespace Checkout.PaymentGateway.Application.Handlers
 
             try
             {
-                var payment = new Payment(new PaymentId(0),
+                var payment = new Payment(0,
                                           command.BankingPaymentId,
                                           command.Successful,
                                           new CardNumber(command.CardNumber),

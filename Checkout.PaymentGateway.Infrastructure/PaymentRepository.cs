@@ -20,7 +20,7 @@ namespace Checkout.PaymentGateway.Infrastructure
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public Task<Payment> GetByIdAsync(PaymentId id)
+        public Task<Payment> GetByIdAsync(int id)
         {
              return DbContext.Payments.FindAsync(id).AsTask();
         }
