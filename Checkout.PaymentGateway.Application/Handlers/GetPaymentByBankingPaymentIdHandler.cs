@@ -25,6 +25,9 @@ namespace Checkout.PaymentGateway.Application.Handlers
 
             var aggregate = await _repository.GetByBankingPaymentIdAsync(query.BankingPaymentId);
 
+            if (aggregate is null)
+                return null;
+
             return new GetPaymentByBankingPaymentIdResult()
             {
                 CardNumber = MaskCardNumber(aggregate.CardNumber.Value),

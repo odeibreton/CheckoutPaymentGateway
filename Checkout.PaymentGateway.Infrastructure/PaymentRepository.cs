@@ -22,12 +22,12 @@ namespace Checkout.PaymentGateway.Infrastructure
 
         public Task<Payment> GetByIdAsync(PaymentId id)
         {
-            return DbContext.Payments.FindAsync(id).AsTask();
+             return DbContext.Payments.FindAsync(id).AsTask();
         }
 
         public Task<Payment> GetByBankingPaymentIdAsync(string bankingPaymentId)
         {
-            return DbContext.Payments.SingleAsync(p => p.BankingPaymentId == bankingPaymentId);
+            return DbContext.Payments.SingleOrDefaultAsync(p => p.BankingPaymentId == bankingPaymentId);
         }
 
         public Task CreateAsync(Payment payment)

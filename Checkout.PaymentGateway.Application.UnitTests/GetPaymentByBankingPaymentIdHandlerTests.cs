@@ -101,5 +101,24 @@ namespace Checkout.PaymentGateway.Application.UnitTests
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
+
+        [Fact]
+        public async void ShouldReturnNullIfEntityIsNotFound()
+        {
+            var query = new GetPaymentByBankingPaymentId()
+            {
+                BankingPaymentId = "123"
+            };
+
+            var repositoryMock = GetRepositoryMock();
+            repositoryMock.Setup(r => r.GetByBankingPaymentIdAsync(It.IsAny<string>()))
+                .ReturnsAsync(() => null);
+
+            var handler = GetHandler(repositoryMock.Object);
+
+            var result = await handler.HandleAsync(query);
+
+            Assert.Null(result);
+        }
     }
 }
