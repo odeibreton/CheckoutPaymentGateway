@@ -5,13 +5,13 @@ using Checkout.PaymentGateway.Domain.Framework;
 
 namespace Checkout.PaymentGateway.Domain
 {
-    public sealed class Payment : AggregateRoot<PaymentId>
+    public sealed class Payment : AggregateRoot<int>
     {
-        private Payment(PaymentId id) : base(id)
+        private Payment(int id) : base(id)
         {
         }
 
-        public Payment(PaymentId id,
+        public Payment(int id,
                        string bankingPaymentId,
                        bool successfulPayment,
                        CardNumber cardNumber,

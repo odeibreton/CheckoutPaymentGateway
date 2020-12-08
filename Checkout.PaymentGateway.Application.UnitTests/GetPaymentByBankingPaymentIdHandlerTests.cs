@@ -58,7 +58,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
                     {
                         BankingPaymentId = "123"
                     },
-                    new Payment(null, "123", true, new CardNumber("4080231619817071"), 12, 2020, new CVV("123"), 200m, new Currency("EUR")),
+                    new Payment(0, "123", true, new CardNumber("4080231619817071"), 12, 2020, new CVV("123"), 200m, new Currency("EUR")),
                     new GetPaymentByBankingPaymentIdResult()
                     {
                         CardNumber = "************7071",
@@ -73,7 +73,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
                     {
                         BankingPaymentId = "456456"
                     },
-                    new Payment(null, "456456", false, new CardNumber("4485478220890208503"), 12, 2020, new CVV("123"), 200m, new Currency("EUR")),
+                    new Payment(0, "456456", false, new CardNumber("4485478220890208503"), 12, 2020, new CVV("123"), 200m, new Currency("EUR")),
                     new GetPaymentByBankingPaymentIdResult()
                     {
                         CardNumber = "***************8503",
@@ -88,7 +88,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
                     {
                         BankingPaymentId = "123"
                     },
-                    new Payment(null, "123", false, new CardNumber("4080 2316 1981 7071"), 12, 2020, new CVV("123"), 200m, new Currency("EUR")),
+                    new Payment(0, "123", false, new CardNumber("4080 2316 1981 7071"), 12, 2020, new CVV("123"), 200m, new Currency("EUR")),
                     new GetPaymentByBankingPaymentIdResult()
                     {
                         CardNumber = "************7071",
