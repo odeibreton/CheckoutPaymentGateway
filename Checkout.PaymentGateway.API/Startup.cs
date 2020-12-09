@@ -41,6 +41,7 @@ namespace Checkout.PaymentGateway.API
             });
 
             ConfigureEncryption(services);
+            ConfigureSwagger(services);
 
             services.Configure<BankingServiceMockOptions>(Configuration.GetSection("BankingServiceMockOptions"));
 
@@ -64,6 +65,12 @@ namespace Checkout.PaymentGateway.API
 
             app.UseAuthorization();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(setup =>
+            {
+                setup.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
@@ -84,6 +91,11 @@ namespace Checkout.PaymentGateway.API
             });
 
             services.AddSingleton<IEncryptionService, EncryptionService>();
+        }
+
+        private void ConfigureSwagger(IServiceCollection services)
+        {
+            services.AddSwaggerGen();
         }
     }
 }

@@ -15,6 +15,9 @@ namespace Checkout.PaymentGateway.Application.Handlers.GetPaymentByBankingPaymen
 
         protected override Task<GetPaymentByBankingPaymentIdResult> HandleDecoratorAsync(Domain.Queries.GetPaymentByBankingPaymentId query, GetPaymentByBankingPaymentIdResult result)
         {
+            if (result is null)
+                return Task.FromResult<GetPaymentByBankingPaymentIdResult>(null);
+
             result.CardNumber = Mask(result.CardNumber, 4);
             return Task.FromResult(result);
         }
