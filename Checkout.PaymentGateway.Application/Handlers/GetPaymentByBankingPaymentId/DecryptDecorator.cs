@@ -9,9 +9,9 @@ using Checkout.PaymentGateway.Domain.Queries;
 
 namespace Checkout.PaymentGateway.Application.Handlers.GetPaymentByBankingPaymentId
 {
-    public sealed class DecryptGetPaymentByBankingPaymentIdPostDecorator : PostDecryptDecorator<Domain.Queries.GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult>
+    public sealed class DecryptDecorator : PostDecryptDecorator<Domain.Queries.GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult>
     {
-        public DecryptGetPaymentByBankingPaymentIdPostDecorator(IQueryHandler<Domain.Queries.GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult> internalHandler, IEncryptionService encryptionService) : base(internalHandler, encryptionService)
+        public DecryptDecorator(IQueryHandler<Domain.Queries.GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult> internalHandler, IEncryptionService encryptionService) : base(internalHandler, encryptionService)
         {
         }
 

@@ -21,8 +21,8 @@ namespace Checkout.PaymentGateway.Application.UnitTests
     public class CreatePaymentHandlerTests
     {
         #region Creation
-        private static CreatePaymentHandler GetHandler(IPaymentRepository repository) =>
-            new CreatePaymentHandler(repository, NullLogger<CreatePaymentHandler>.Instance);
+        private static Handler GetHandler(IPaymentRepository repository) =>
+            new Handler(repository, NullLogger<Handler>.Instance);
 
         private static Mock<IPaymentRepository> GetMock() => new Mock<IPaymentRepository>();
         #endregion
@@ -31,9 +31,9 @@ namespace Checkout.PaymentGateway.Application.UnitTests
         [Theory]
         [ClassData(typeof(ShouldThrowArgumentNullExceptionData))]
         public void ShouldThrowArgumentNullException(IPaymentRepository paymentRepository,
-                                                     ILogger<CreatePaymentHandler> logger)
+                                                     ILogger<Handler> logger)
         {
-            Assert.Throws<ArgumentNullException>(() => new CreatePaymentHandler(paymentRepository, logger));
+            Assert.Throws<ArgumentNullException>(() => new Handler(paymentRepository, logger));
         }
 
         internal class ShouldThrowArgumentNullExceptionData : IEnumerable<object[]>
@@ -43,7 +43,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
                 yield return new object[]
                 {
                     null,
-                    NullLogger<CreatePaymentHandler>.Instance
+                    NullLogger<Handler>.Instance
                 };
                 yield return new object[]
                 {
