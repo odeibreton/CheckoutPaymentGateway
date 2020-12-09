@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Checkout.PaymentGateway.Application.DTO;
+using Checkout.PaymentGateway.Application.Handlers.Abstractions;
 using Checkout.PaymentGateway.Domain.Framework;
 using Checkout.PaymentGateway.Domain.Queries;
 using Checkout.PaymentGateway.Domain.Repositories;
 
-namespace Checkout.PaymentGateway.Application.Handlers
+namespace Checkout.PaymentGateway.Application.Handlers.GetPaymentByBankingPaymentId
 {
-    public class GetPaymentByBankingPaymentIdHandler : IQueryHandler<GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult>
+    [Decrypt(typeof(Domain.Queries.GetPaymentByBankingPaymentId), typeof(GetPaymentByBankingPaymentIdResult), DecoratorExecutionTime.Post)]
+    public class GetPaymentByBankingPaymentIdHandler : IQueryHandler<Domain.Queries.GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult>
     {
         private readonly IPaymentRepository _repository;
 
@@ -19,7 +21,7 @@ namespace Checkout.PaymentGateway.Application.Handlers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        public async Task<GetPaymentByBankingPaymentIdResult> HandleAsync(GetPaymentByBankingPaymentId query)
+        public async Task<GetPaymentByBankingPaymentIdResult> HandleAsync(Domain.Queries.GetPaymentByBankingPaymentId query)
         {
             _ = query ?? throw new ArgumentNullException(nameof(query));
 

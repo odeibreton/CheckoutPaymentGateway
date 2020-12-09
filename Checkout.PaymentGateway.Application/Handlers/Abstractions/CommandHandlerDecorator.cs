@@ -4,9 +4,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Checkout.PaymentGateway.Domain.Framework;
 
-namespace Checkout.PaymentGateway.Application.Handlers
+namespace Checkout.PaymentGateway.Application.Handlers.Abstractions
 {
-    public abstract class CommandHandlerDecorator<T> : ICommandHandler<T>
+    public abstract class CommandHandlerDecorator<T> : ICommandHandler<T>, IDecorator
         where T : ICommand
     {
         private ICommandHandler<T> InternalHandler { get; }
