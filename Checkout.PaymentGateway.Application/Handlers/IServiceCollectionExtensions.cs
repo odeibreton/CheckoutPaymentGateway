@@ -23,11 +23,11 @@ namespace Checkout.PaymentGateway.Application.Handlers
 
             var handlers = types
                 .Where(type => type.GetInterfaces().Any(i => IsHandlerInterface(i)))
-                .Where(type => !type.GetInterfaces().Any(i => IsDecoratorInterface(i)))
+                .Where(type => !ImplementsIDecorator(type))
                 .ToList();
 
             var decoratorImplementationMapping = types
-                .Where(type => type.GetInterfaces().Any(i => IsDecoratorInterface(i)))
+                .Where(type => IsDecorator(type))
                 .ToDictionary(type => type.BaseType);
 
             handlers.ForEach(h => AddHandler(services, h, decoratorImplementationMapping));
@@ -45,14 +45,13 @@ namespace Checkout.PaymentGateway.Application.Handlers
                 .ToList();
 
             var handlerType = handler.GetInterfaces().Single(i => IsHandlerInterface(i));
-            var factory = BuildPipeline(decorators, handler, handlerType, decoratorImplementationMapping);
+            var factory = BuildPipeline(decorators, handler, decoratorImplementationMapping);
 
             services.AddTransient(handlerType, factory);
         }
 
         private static Func<IServiceProvider, object> BuildPipeline(List<Type> decorators,
                                                                     Type handler,
-                                                                    Type handlerType,
                                                                     Dictionary<Type, Type> decoratorImplementationMapping)
         {
             var ctors = decorators
@@ -60,8 +59,8 @@ namespace Checkout.PaymentGateway.Application.Handlers
                 .Concat(new [] { handler })
                 .Select(d =>
                 {
-                    var decorator = d.IsGenericTypeDefinition ? d.MakeGenericType(handlerType.GenericTypeArguments) : d;
-                    return decorator.GetConstructors().Single();
+                    var constructorInfos = d.GetConstructors();
+                    return constructorInfos.Single();
                 })
                 .Reverse()
                 .ToList();
@@ -121,9 +120,35 @@ namespace Checkout.PaymentGateway.Application.Handlers
             return typeDefinition == typeof(ICommandHandler<>) || typeDefinition == typeof(IQueryHandler<,>);
         }
 
-        private static bool IsDecoratorInterface(Type type)
+        private static bool IsDecorator(Type type)
         {
-            return type == typeof(IDecorator);
+            if (!ImplementsIDecorator(type))
+                return false;
+
+            if (type.IsGenericType || type.IsAbstract)
+                return false;
+
+            for (var current = type; current.BaseType != typeof(object); current = type.BaseType)
+            {
+                if (!current.BaseType.IsGenericType)
+                    continue;
+
+                var typeDefinition = current.BaseType.GetGenericTypeDefinition();
+
+                if (typeDefinition == typeof(CommandHandlerDecorator<>)
+                    || typeDefinition == typeof(PreQueryHandlerDecorator<,>)
+                    || typeDefinition == typeof(PostQueryHandlerDecorator<,>))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool ImplementsIDecorator(Type type)
+        {
+            return type.GetInterfaces().Any(i => i == typeof(IDecorator));
         }
     }
 }

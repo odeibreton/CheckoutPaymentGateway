@@ -62,7 +62,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
                     new Payment(0, "123", true, new CardNumber("4080231619817071"), 12, 2020, new CVV("123"), 200m, new Currency("EUR")),
                     new GetPaymentByBankingPaymentIdResult()
                     {
-                        CardNumber = "************7071",
+                        CardNumber = "4080231619817071",
                         Amount = 200m,
                         Currency = "EUR",
                         SuccessfulPayment = true
@@ -77,7 +77,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
                     new Payment(0, "456456", false, new CardNumber("4485478220890208503"), 12, 2020, new CVV("123"), 200m, new Currency("EUR")),
                     new GetPaymentByBankingPaymentIdResult()
                     {
-                        CardNumber = "***************8503",
+                        CardNumber = "4485478220890208503",
                         Amount = 200m,
                         Currency = "EUR",
                         SuccessfulPayment = false
@@ -92,7 +92,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
                     new Payment(0, "123", false, new CardNumber("4080 2316 1981 7071"), 12, 2020, new CVV("123"), 200m, new Currency("EUR")),
                     new GetPaymentByBankingPaymentIdResult()
                     {
-                        CardNumber = "************7071",
+                        CardNumber = "4080 2316 1981 7071",
                         Amount = 200m,
                         Currency = "EUR",
                         SuccessfulPayment = false

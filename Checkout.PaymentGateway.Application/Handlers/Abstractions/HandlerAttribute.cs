@@ -16,9 +16,9 @@ namespace Checkout.PaymentGateway.Application.Handlers.Abstractions
 
             CheckDecorator(decoratorType);
 
-            if (decoratorType.IsSubclassOf(typeof(CommandHandlerDecorator<>)))
+            if (decoratorType.BaseType == typeof(CommandHandlerDecorator<>))
             {
-                throw new ArgumentException($"The parameter {nameof(decoratorType)} must be a type that inherits {typeof(CommandHandlerDecorator<>)}", nameof(decoratorType));
+                throw new ArgumentException($"The parameter {nameof(decoratorType)} must be a type that inherits from {typeof(CommandHandlerDecorator<>)}", nameof(decoratorType));
             }
 
             if (!commandType.GetInterfaces().Any(i => i == typeof(ICommand)))
@@ -53,7 +53,7 @@ namespace Checkout.PaymentGateway.Application.Handlers.Abstractions
 
         private static void CheckDecorator(Type decoratorType)
         {
-            if (!decoratorType.IsGenericType)
+            if (!decoratorType.IsGenericType || !decoratorType.BaseType.IsGenericType)
             {
                 throw new ArgumentException($"The parameter {nameof(decoratorType)} must be a generic type.", nameof(decoratorType));
             }
@@ -63,13 +63,13 @@ namespace Checkout.PaymentGateway.Application.Handlers.Abstractions
         {
             CheckDecorator(decoratorType);
 
-            if (executionTime == DecoratorExecutionTime.Pre && !decoratorType.IsSubclassOf(typeof(PreQueryHandlerDecorator<,>)))
+            if (executionTime == DecoratorExecutionTime.Pre && decoratorType.BaseType.GetGenericTypeDefinition() != typeof(PreQueryHandlerDecorator<,>))
             {
-                throw new ArgumentException($"The parameter {nameof(decoratorType)} must be a type that inherits {typeof(PreQueryHandlerDecorator<,>)}.", nameof(decoratorType));
+                throw new ArgumentException($"The parameter {nameof(decoratorType)} must be a type that inherits from {typeof(PreQueryHandlerDecorator<,>)}.", nameof(decoratorType));
             }
-            else if (executionTime == DecoratorExecutionTime.Post && !decoratorType.IsSubclassOf(typeof(PostQueryHandlerDecorator<,>)))
+            else if (executionTime == DecoratorExecutionTime.Post && decoratorType.BaseType.GetGenericTypeDefinition() != typeof(PostQueryHandlerDecorator<,>))
             {
-                throw new ArgumentException($"The parameter {nameof(decoratorType)} must be a type that inherits {typeof(PostQueryHandlerDecorator<,>)}.", nameof(decoratorType));
+                throw new ArgumentException($"The parameter {nameof(decoratorType)} must be a type that inherits from {typeof(PostQueryHandlerDecorator<,>)}.", nameof(decoratorType));
             }
         }
 
