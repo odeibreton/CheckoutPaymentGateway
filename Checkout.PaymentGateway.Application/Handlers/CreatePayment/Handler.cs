@@ -13,12 +13,12 @@ using Microsoft.Extensions.Logging;
 namespace Checkout.PaymentGateway.Application.Handlers.CreatePayment
 {
     [Encrypt(typeof(Domain.Commands.CreatePayment))]
-    public sealed class CreatePaymentHandler : ICommandHandler<Domain.Commands.CreatePayment>
+    public sealed class Handler : ICommandHandler<Domain.Commands.CreatePayment>
     {
         private readonly IPaymentRepository _paymentRepository;
-        private readonly ILogger<CreatePaymentHandler> _logger;
+        private readonly ILogger<Handler> _logger;
 
-        public CreatePaymentHandler(IPaymentRepository paymentRepository, ILogger<CreatePaymentHandler> logger)
+        public Handler(IPaymentRepository paymentRepository, ILogger<Handler> logger)
         {
             _paymentRepository = paymentRepository ?? throw new ArgumentNullException(nameof(paymentRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

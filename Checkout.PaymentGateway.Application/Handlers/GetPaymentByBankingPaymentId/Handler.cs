@@ -13,11 +13,11 @@ namespace Checkout.PaymentGateway.Application.Handlers.GetPaymentByBankingPaymen
 {
     [Mask(typeof(Domain.Queries.GetPaymentByBankingPaymentId), typeof(GetPaymentByBankingPaymentIdResult))]
     [Decrypt(typeof(Domain.Queries.GetPaymentByBankingPaymentId), typeof(GetPaymentByBankingPaymentIdResult), DecoratorExecutionTime.Post)]
-    public class GetPaymentByBankingPaymentIdHandler : IQueryHandler<Domain.Queries.GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult>
+    public class Handler : IQueryHandler<Domain.Queries.GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult>
     {
         private readonly IPaymentRepository _repository;
 
-        public GetPaymentByBankingPaymentIdHandler(IPaymentRepository repository)
+        public Handler(IPaymentRepository repository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }

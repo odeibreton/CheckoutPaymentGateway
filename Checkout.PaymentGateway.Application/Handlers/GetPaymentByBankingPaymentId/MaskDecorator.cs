@@ -7,9 +7,9 @@ using Checkout.PaymentGateway.Domain.Framework;
 
 namespace Checkout.PaymentGateway.Application.Handlers.GetPaymentByBankingPaymentId
 {
-    public class MaskGetPaymentByBankingPaymentIdDecorator : MaskDecorator<Domain.Queries.GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult>
+    public class MaskDecorator : MaskDecorator<Domain.Queries.GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult>
     {
-        public MaskGetPaymentByBankingPaymentIdDecorator(IQueryHandler<Domain.Queries.GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult> internalHandler) : base(internalHandler)
+        public MaskDecorator(IQueryHandler<Domain.Queries.GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult> internalHandler) : base(internalHandler)
         {
         }
 

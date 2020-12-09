@@ -8,9 +8,9 @@ using Checkout.PaymentGateway.Domain.Commands;
 
 namespace Checkout.PaymentGateway.Application.Handlers.CreatePayment
 {
-    public sealed class EncryptCreatePaymentDecorator : EncryptDecorator<Domain.Commands.CreatePayment>
+    public sealed class EncryptDecorator : EncryptDecorator<Domain.Commands.CreatePayment>
     {
-        public EncryptCreatePaymentDecorator(ICommandHandler<Domain.Commands.CreatePayment> internalHandler, IEncryptionService encryptionService)
+        public EncryptDecorator(ICommandHandler<Domain.Commands.CreatePayment> internalHandler, IEncryptionService encryptionService)
             : base(internalHandler, encryptionService)
         {
         }

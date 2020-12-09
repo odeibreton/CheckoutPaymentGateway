@@ -16,8 +16,8 @@ namespace Checkout.PaymentGateway.Application.UnitTests
     public class GetPaymentByBankingPaymentIdHandlerTests
     {
         #region Creation
-        private static GetPaymentByBankingPaymentIdHandler GetHandler(IPaymentRepository repository) =>
-            new GetPaymentByBankingPaymentIdHandler(repository);
+        private static Handler GetHandler(IPaymentRepository repository) =>
+            new Handler(repository);
 
         private static Mock<IPaymentRepository> GetRepositoryMock() => new Mock<IPaymentRepository>();
         #endregion
@@ -25,7 +25,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
         [Fact]
         public void ShouldReturnArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new GetPaymentByBankingPaymentIdHandler(null));
+            Assert.Throws<ArgumentNullException>(() => new Handler(null));
         }
 
         [Theory]
