@@ -43,12 +43,15 @@ namespace Checkout.PaymentGateway.API
             ConfigureEncryption(services);
             ConfigureSwagger(services);
 
-            services.Configure<BankingServiceMockOptions>(Configuration.GetSection("BankingServiceMockOptions"));
+            services.Configure<BankingServiceOptions>(Configuration.GetSection("BankingServiceOptions"));
 
             services.AddTransient<IPaymentRepository, PaymentRepository>();
             services.AddHandlers();
             services.AddTransient<IMessageDispatcher, MessageDispatcher>();
-            services.AddTransient<IBankingService, BankingServiceMock>();
+            services.AddHttpClient<IBankingService, BankingService>(client =>
+            {
+                client.BaseAddress = new Uri(Configuration["BankingServiceOptions:BaseAddress"]);
+            });
             services.AddTransient<ICreatePaymentService, CreatePaymentService>();
         }
 
