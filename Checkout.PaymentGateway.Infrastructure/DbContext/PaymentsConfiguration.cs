@@ -22,7 +22,7 @@ namespace Checkout.PaymentGateway.Infrastructure.DbContext
             builder.Property(p => p.CardNumber)
                 .HasConversion(v => v.Value, v => new CardNumber(v))
                 .HasColumnName("CardNumber")
-                .HasMaxLength(19)
+                .HasMaxLength(1024)
                 .IsRequired();
 
             builder.Property(p => p.CVV)

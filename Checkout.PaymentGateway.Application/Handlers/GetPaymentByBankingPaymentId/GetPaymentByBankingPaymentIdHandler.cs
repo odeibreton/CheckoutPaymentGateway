@@ -11,6 +11,7 @@ using Checkout.PaymentGateway.Domain.Repositories;
 
 namespace Checkout.PaymentGateway.Application.Handlers.GetPaymentByBankingPaymentId
 {
+    [Mask(typeof(Domain.Queries.GetPaymentByBankingPaymentId), typeof(GetPaymentByBankingPaymentIdResult))]
     [Decrypt(typeof(Domain.Queries.GetPaymentByBankingPaymentId), typeof(GetPaymentByBankingPaymentIdResult), DecoratorExecutionTime.Post)]
     public class GetPaymentByBankingPaymentIdHandler : IQueryHandler<Domain.Queries.GetPaymentByBankingPaymentId, GetPaymentByBankingPaymentIdResult>
     {
@@ -32,18 +33,11 @@ namespace Checkout.PaymentGateway.Application.Handlers.GetPaymentByBankingPaymen
 
             return new GetPaymentByBankingPaymentIdResult()
             {
-                CardNumber = MaskCardNumber(aggregate.CardNumber.Value),
+                CardNumber = aggregate.CardNumber.Value,
                 Amount = aggregate.Amount,
                 Currency = aggregate.Currency.Value,
                 SuccessfulPayment = aggregate.SuccessfulPayment
             };
-        }
-
-        private static string MaskCardNumber(string cardNumber)
-        {
-            var formattedNumber = cardNumber.Replace(" ", "");
-            var last4digits = formattedNumber.Remove(0, formattedNumber.Length - 4);
-            return new string('*', formattedNumber.Length - 4) + last4digits;
         }
     }
 }

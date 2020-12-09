@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Checkout.PaymentGateway.Application.Handlers;
 using Checkout.PaymentGateway.Application.Services;
@@ -39,6 +40,8 @@ namespace Checkout.PaymentGateway.API
                 options.UseSqlServer(Configuration.GetConnectionString("Payments"));
             });
 
+            ConfigureEncryption(services);
+
             services.Configure<BankingServiceMockOptions>(Configuration.GetSection("BankingServiceMockOptions"));
 
             services.AddTransient<IPaymentRepository, PaymentRepository>();
@@ -65,6 +68,22 @@ namespace Checkout.PaymentGateway.API
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void ConfigureEncryption(IServiceCollection services)
+        {
+            var publicKey = Convert.FromBase64String(Configuration["RSA:PublicKey"]);
+            var privateKey = Convert.FromBase64String(Configuration["RSA:PrivateKey"]);
+
+            services.AddSingleton<RSA>(provider =>
+            {
+                var rsa = RSA.Create();
+                rsa.ImportRSAPublicKey(publicKey, out _);
+                rsa.ImportRSAPrivateKey(privateKey, out _);
+                return rsa;
+            });
+
+            services.AddSingleton<IEncryptionService, EncryptionService>();
         }
     }
 }
