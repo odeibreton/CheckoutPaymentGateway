@@ -10,9 +10,10 @@ using Checkout.PaymentGateway.Domain.Framework;
 using Checkout.PaymentGateway.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
-namespace Checkout.PaymentGateway.Application.Handlers
+namespace Checkout.PaymentGateway.Application.Handlers.CreatePayment
 {
-    public sealed class CreatePaymentHandler : ICommandHandler<CreatePayment>
+    [Encrypt(typeof(Domain.Commands.CreatePayment))]
+    public sealed class CreatePaymentHandler : ICommandHandler<Domain.Commands.CreatePayment>
     {
         private readonly IPaymentRepository _paymentRepository;
         private readonly ILogger<CreatePaymentHandler> _logger;
@@ -23,7 +24,7 @@ namespace Checkout.PaymentGateway.Application.Handlers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task HandleAsync(CreatePayment command)
+        public async Task HandleAsync(Domain.Commands.CreatePayment command)
         {
             _ = command ?? throw new ArgumentNullException(nameof(command));
 

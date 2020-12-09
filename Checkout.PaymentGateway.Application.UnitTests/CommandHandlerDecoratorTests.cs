@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Checkout.PaymentGateway.Application.Handlers;
+using Checkout.PaymentGateway.Application.Handlers.Abstractions;
 using Checkout.PaymentGateway.Domain.Framework;
 using Moq;
 using Xunit;
@@ -11,6 +12,7 @@ namespace Checkout.PaymentGateway.Application.UnitTests
 {
     public class CommandHandlerDecoratorTests
     {
+
         [Fact]
         public void ShouldThrowArgumentNullExceptionWithNullHandler()
         {

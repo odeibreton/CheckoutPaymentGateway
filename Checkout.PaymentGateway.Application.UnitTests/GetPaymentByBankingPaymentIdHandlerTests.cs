@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Checkout.PaymentGateway.Application.DTO;
 using Checkout.PaymentGateway.Application.Handlers;
+using Checkout.PaymentGateway.Application.Handlers.GetPaymentByBankingPaymentId;
 using Checkout.PaymentGateway.Domain;
 using Checkout.PaymentGateway.Domain.Queries;
 using Checkout.PaymentGateway.Domain.Repositories;

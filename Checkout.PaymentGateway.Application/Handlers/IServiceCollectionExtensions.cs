@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Checkout.PaymentGateway.Application.Handlers.Abstractions;
 using Checkout.PaymentGateway.Domain.Framework;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,45 +14,53 @@ namespace Checkout.PaymentGateway.Application.Handlers
         public static IServiceCollection AddHandlers(this IServiceCollection services)
         {
             var assembly = typeof(IServiceCollectionExtensions).Assembly;
-            return AddHandlers(services, assembly);
+            return AddHandlers(services, assembly.GetTypes());
         }
 
-        public static IServiceCollection AddHandlers(this IServiceCollection services, Assembly assembly)
+        public static IServiceCollection AddHandlers(this IServiceCollection services, Type[] types)
         {
-            _ = assembly ?? throw new ArgumentNullException(nameof(assembly));
+            _ = types ?? throw new ArgumentNullException(nameof(types));
 
-            var handlers = assembly.GetTypes()
+            var handlers = types
                 .Where(type => type.GetInterfaces().Any(i => IsHandlerInterface(i)))
-                .Where(type => !IsDecorator(type))
+                .Where(type => !type.GetInterfaces().Any(i => IsDecoratorInterface(i)))
                 .ToList();
 
-            handlers.ForEach(h => AddHandler(services, h));
+            var decoratorImplementationMapping = types
+                .Where(type => type.GetInterfaces().Any(i => IsDecoratorInterface(i)))
+                .ToDictionary(type => type.BaseType);
+
+            handlers.ForEach(h => AddHandler(services, h, decoratorImplementationMapping));
 
             return services;
         }
 
-        private static void AddHandler(IServiceCollection services, Type handler)
+        private static void AddHandler(IServiceCollection services, Type handler, Dictionary<Type, Type> decoratorImplementationMapping)
         {
-            var attributes = handler.GetCustomAttributes(false);
+            var attributes = handler.GetCustomAttributes(true);
 
             var decorators = attributes
-                .Where(a => a.GetType().IsSubclassOf(typeof(CommandHandlerAttribute)))
-                .Select(a => (a as CommandHandlerAttribute).Decorator)
+                .Where(a => a.GetType().IsSubclassOf(typeof(HandlerAttribute)))
+                .Select(a => (a as HandlerAttribute).Decorator)
                 .ToList();
 
             var handlerType = handler.GetInterfaces().Single(i => IsHandlerInterface(i));
-            var factory = BuildPipeline(decorators, handler, handlerType);
+            var factory = BuildPipeline(decorators, handler, handlerType, decoratorImplementationMapping);
 
             services.AddTransient(handlerType, factory);
         }
 
-        private static Func<IServiceProvider, object> BuildPipeline(List<Type> decorators, Type handler, Type handlerType)
+        private static Func<IServiceProvider, object> BuildPipeline(List<Type> decorators,
+                                                                    Type handler,
+                                                                    Type handlerType,
+                                                                    Dictionary<Type, Type> decoratorImplementationMapping)
         {
             var ctors = decorators
+                .Select(d => decoratorImplementationMapping[d])
                 .Concat(new [] { handler })
                 .Select(d =>
                 {
-                    var decorator = d.IsGenericType ? d.MakeGenericType(handlerType.GenericTypeArguments) : d;
+                    var decorator = d.IsGenericTypeDefinition ? d.MakeGenericType(handlerType.GenericTypeArguments) : d;
                     return decorator.GetConstructors().Single();
                 })
                 .Reverse()
@@ -112,14 +121,9 @@ namespace Checkout.PaymentGateway.Application.Handlers
             return typeDefinition == typeof(ICommandHandler<>) || typeDefinition == typeof(IQueryHandler<,>);
         }
 
-        private static bool IsDecorator(Type type)
+        private static bool IsDecoratorInterface(Type type)
         {
-            if (!type.IsGenericType)
-                return false;
-
-            var typeDefinition = type.GetGenericTypeDefinition();
-
-            return typeDefinition == typeof(CommandHandlerDecorator<>) || typeDefinition.IsSubclassOf(typeof(CommandHandlerDecorator<>));
+            return type == typeof(IDecorator);
         }
     }
 }
