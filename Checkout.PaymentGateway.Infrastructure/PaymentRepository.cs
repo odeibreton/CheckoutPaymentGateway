@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Checkout.PaymentGateway.Domain;
@@ -28,6 +29,11 @@ namespace Checkout.PaymentGateway.Infrastructure
         public Task<Payment> GetByBankingPaymentIdAsync(string bankingPaymentId)
         {
             return DbContext.Payments.SingleOrDefaultAsync(p => p.BankingPaymentId == bankingPaymentId);
+        }
+
+        public Task<List<Payment>> GetPaymentsByBankingPaymentIdAsync(IEnumerable<string> ids)
+        {
+            return DbContext.Payments.Where(p => ids.Contains(p.BankingPaymentId)).ToListAsync();
         }
 
         public Task CreateAsync(Payment payment)
