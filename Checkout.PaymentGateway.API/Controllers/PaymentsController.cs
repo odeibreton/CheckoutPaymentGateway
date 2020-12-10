@@ -41,6 +41,19 @@ namespace Checkout.PaymentGateway.API.Controllers
             return result;
         }
 
+        [HttpPost("get")]
+        public async Task<ActionResult<GetPaymentsByBankingPaymentIdResult>> GetPayment(GetPaymentsRequest request)
+        {
+            var query = new GetPaymentsByBankingPaymentId()
+            {
+                Ids = request.Ids
+            };
+
+            var result = await _dispatcher.DispatchAsync<GetPaymentsByBankingPaymentId, GetPaymentsByBankingPaymentIdResult>(query);
+
+            return result;
+        }
+
         [HttpPost]
         public async Task<ActionResult<BankingPaymentResult>> MakePayment(MakePaymentRequest payment)
         {
